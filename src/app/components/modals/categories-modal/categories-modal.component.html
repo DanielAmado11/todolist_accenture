@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>{{ category ? 'Editar' : 'Nueva' }} Categoría</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [disabled]="!name.trim()">
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input
+      [(ngModel)]="name"
+      placeholder="Ej: Trabajo, Personal..."
+      clearInput>
+    </ion-input>
+  </ion-item>
+
+  <div class="color-section">
+    <p class="color-label">Color</p>
+    <div class="color-grid">
+      @for (color of colors; track color.value) {
+        <div
+          class="color-dot"
+          [style.background]="color.value"
+          [class.selected]="selectedColor === color.value"
+          (click)="selectColor(color.value)">
+        </div>
+      }
+    </div>
+  </div>
+
+</ion-content>

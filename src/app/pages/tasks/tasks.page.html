@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Filtro por categorías -->
+  <div class="filter-chips">
+    <ion-chip
+      [color]="!selectedCategoryId ? 'primary' : 'medium'"
+      (click)="filterByCategory(null)">
+      Todas
+    </ion-chip>
+    @for (cat of categories; track cat.id) {
+      <ion-chip
+        [color]="selectedCategoryId === cat.id ? 'primary' : 'medium'"
+        (click)="filterByCategory(cat.id)">
+        <span class="dot" [style.background]="cat.color"></span>
+        {{ cat.name }}
+      </ion-chip>
+    }
+  </div>
+
+  <!-- Lista de tareas -->
+  <ion-list>
+    @for (task of filteredTasks; track task.id) {
+      <ion-item>
+        <ion-checkbox
+          slot="start"
+          [checked]="task.completed"
+          (ionChange)="toggleComplete(task)">
+        </ion-checkbox>
+
+        <ion-label [class.completed]="task.completed">
+          {{ task.title }}
+          @if (getCategoryById(task.categoryId); as cat) {
+            <p>
+              <ion-badge [style.background]="cat.color">{{ cat.name }}</ion-badge>
+            </p>
+          }
+        </ion-label>
+
+        <ion-button fill="clear" color="danger" slot="end" (click)="confirmDelete(task)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </ion-item>
+    } @empty {
+      <ion-item>
+        <ion-label color="medium">No hay tareas aún</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

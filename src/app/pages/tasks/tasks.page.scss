@@ -1,0 +1,20 @@
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+ion-label.completed {
+  text-decoration: line-through;
+  opacity: 0.5;
+}

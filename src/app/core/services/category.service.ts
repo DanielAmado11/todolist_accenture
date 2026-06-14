@@ -22,9 +22,14 @@ export class CategoryService {
     return this.loadFromStorage();
   }
 
-  add(category: Category): void {
+  add(name: string, color: string): void {
     const categories = this.loadFromStorage();
-    categories.push(category);
+    categories.push({
+      id: Date.now().toString(),
+      name,
+      color,
+      createdAt: new Date(),
+    });
     this.saveToStorage(categories);
   }
 

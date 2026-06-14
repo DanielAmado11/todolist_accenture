@@ -1,0 +1,29 @@
+.color-section {
+  margin-top: 24px;
+  padding: 0 16px;
+}
+
+.color-label {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  margin-bottom: 12px;
+}
+
+.color-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.color-dot {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &.selected {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px white, 0 0 0 5px var(--ion-color-primary);
+  }
+}
