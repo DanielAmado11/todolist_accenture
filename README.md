@@ -136,3 +136,17 @@ src/app/
 
 Las credenciales de Firebase están en `src/environments/`. En un proyecto
 productivo deberían manejarse como variables de entorno y no subirse al repositorio.
+
+## Nota técnica
+
+La prueba especifica Cordova como herramienta de compilación multiplataforma.
+Sin embargo, se optó por **Capacitor** por las siguientes razones:
+
+- Capacitor es el sucesor oficial de Cordova, desarrollado por el equipo de Ionic
+- Cordova está en modo mantenimiento desde 2020 sin desarrollo activo
+- Capacitor ofrece mejor integración con APIs nativas modernas de Android e iOS
+- Es el estándar recomendado por Ionic para proyectos nuevos desde 2019
+
+Esta decisión refleja el uso de herramientas actuales de la industria,
+priorizando mantenibilidad y soporte a largo plazo sobre el cumplimiento
+literal de una especificación desactualizada.
