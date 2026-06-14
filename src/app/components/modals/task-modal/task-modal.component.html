@@ -32,7 +32,6 @@
       <ion-select-option [value]="null">Sin categoría</ion-select-option>
       @for (cat of categories; track cat.id) {
         <ion-select-option [value]="cat.id">
-          <div class="dot" [style.background]="cat.color"></div>
           {{ cat.name }}
         </ion-select-option>
       }

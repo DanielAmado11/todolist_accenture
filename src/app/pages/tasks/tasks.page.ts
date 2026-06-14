@@ -20,6 +20,9 @@ import {
   ModalController,
   ToastController,
   AlertController,
+  IonCol,
+  IonRow,
+  IonGrid,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, trash, pencil } from 'ionicons/icons';
@@ -28,6 +31,7 @@ import { CategoryService } from '../../core/services/category.service';
 import { Task } from '../../core/models/task.model';
 import { Category } from '../../core/models/category.model';
 import { TaskModalComponent } from 'src/app/components/modals/task-modal/task-modal.component';
+import { FirebaseService } from 'src/app/core/services/firebase.service';
 
 @Component({
   selector: 'app-tasks',
@@ -51,6 +55,9 @@ import { TaskModalComponent } from 'src/app/components/modals/task-modal/task-mo
     IonChip,
     IonButtons,
     TaskModalComponent,
+    IonCol,
+    IonRow,
+    IonGrid,
   ],
   templateUrl: './tasks.page.html',
   styleUrls: ['./tasks.page.scss'],
@@ -59,6 +66,7 @@ export class TasksPage implements OnInit {
   tasks: Task[] = [];
   categories: Category[] = [];
   selectedCategoryId: string | null = null;
+  showCompletedTasks = true; // Feature flag para mostrar/ocultar tareas completadas
 
   constructor(
     private taskService: TaskService,
@@ -66,11 +74,17 @@ export class TasksPage implements OnInit {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
+    private firebaseService: FirebaseService,
   ) {
     addIcons({ add, trash, pencil });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.firebaseService.fetchConfig();
+    this.showCompletedTasks = this.firebaseService.getBoolean(
+      'show_completed_tasks',
+    );
+
     this.taskService.tasks$.subscribe((tasks) => {
       this.tasks = tasks;
     });
@@ -80,8 +94,15 @@ export class TasksPage implements OnInit {
   }
 
   get filteredTasks(): Task[] {
-    if (!this.selectedCategoryId) return this.tasks;
-    return this.tasks.filter((t) => t.categoryId === this.selectedCategoryId);
+    let tasks = this.tasks;
+
+    // Feature flag — oculta tareas completadas si está desactivado en Remote Config
+    if (!this.showCompletedTasks) {
+      tasks = tasks.filter((t) => !t.completed);
+    }
+
+    if (!this.selectedCategoryId) return tasks;
+    return tasks.filter((t) => t.categoryId === this.selectedCategoryId);
   }
 
   getCategoryById(id: string | null): Category | undefined {

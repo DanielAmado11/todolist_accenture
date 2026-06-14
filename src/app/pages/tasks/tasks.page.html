@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="average">
     <ion-title>Mis Tareas</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -23,8 +23,18 @@
     }
   </div>
 
+  @if (!showCompletedTasks) {
+    <ion-item color="warning">
+      <ion-icon name="eye-off-outline" slot="start"></ion-icon>
+      Solo se muestran las tareas pendientes. Activa la opción "Mostrar tareas completadas" en Remote Config para verlas.
+    </ion-item>
+  }
+
   <!-- Lista de tareas -->
-  <ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeMd="6" offsetMd="3">
+        <ion-list>
     @for (task of filteredTasks; track task.id) {
       <ion-item>
         <ion-checkbox
@@ -52,6 +62,9 @@
       </ion-item>
     }
   </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="openAddModal()">
